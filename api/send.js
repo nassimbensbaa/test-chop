@@ -7,8 +7,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+    const BOT_TOKEN = process.env.BOT_TOKEN;
+    const CHAT_ID = process.env.CHAT_ID;
 
     const { message } = req.body;
 
@@ -19,7 +19,7 @@ ${message}
 ━━━━━━━━━━━━━━
 `;
 
-    const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
     const telegramRes = await fetch(url, {
       method: "POST",
@@ -27,7 +27,7 @@ ${message}
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
+        chat_id: CHAT_ID,
         text: text
       })
     });
