@@ -7,48 +7,63 @@
 </head>
 <body>
 
-  <h2>إرسال رسالة</h2>
+  <h2>إرسال رسالة إلى التلغرام</h2>
 
   <input id="msg" type="text" placeholder="اكتب الرسالة">
 
-  <button onclick="sendMessage()">
+  <button id="btn">
     إرسال
   </button>
 
   <script>
 
-    async function sendMessage() {
+    document.getElementById("btn").addEventListener("click", async function () {
 
-      const message = document.getElementById("msg").value;
+      const msg = document.getElementById("msg").value;
 
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          firstName: "مستخدم",
-          lastName: "",
-          phone: "000000000",
-          state: "البليدة",
-          deliveryType: "office",
-          shipping: 0,
-          total: 0,
-          productName: message
-        })
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-
-      if (data.ok) {
-        alert("تم الإرسال");
-      } else {
-        alert("فشل الإرسال");
+      if (!msg) {
+        alert("اكتب رسالة");
+        return;
       }
 
-    }
+      try {
+
+        const response = await fetch("/api/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            firstName: "نصيب",
+            lastName: "تجربة",
+            phone: "0555555555",
+            state: "البليدة",
+            deliveryType: "office",
+            shipping: 0,
+            total: 0,
+            productName: msg
+          })
+        });
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if (data.ok) {
+          alert("تم الإرسال");
+        } else {
+          alert("فشل الإرسال");
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert("خطأ");
+
+      }
+
+    });
 
   </script>
 
