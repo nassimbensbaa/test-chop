@@ -7,13 +7,21 @@
 </head>
 <body>
 
-  <h3>اكتب رسالة</h3>
+  <h2>إرسال رسالة إلى التلغرام</h2>
 
-  <input id="msg" type="text" placeholder="اكتب هنا">
-  <button onclick="send()">إرسال</button>
+  <input
+    id="msg"
+    type="text"
+    placeholder="اكتب الرسالة هنا"
+  >
+
+  <button onclick="sendMessage()">
+    إرسال
+  </button>
 
   <script>
-    async function send() {
+
+    async function sendMessage() {
 
       const message = document.getElementById("msg").value;
 
@@ -36,23 +44,30 @@
 
         const data = await response.json();
 
-        if (data.ok === false) {
-          alert("فشل الإرسال");
-          console.log(data);
-          return;
-        }
+        console.log(data);
 
-        alert("تم الإرسال إلى التلغرام");
+        if (data.ok) {
+
+          alert("تم الإرسال بنجاح");
+
+        } else {
+
+          alert("فشل الإرسال");
+
+          console.log("Telegram Error:", data);
+
+        }
 
       } catch (error) {
 
         console.log(error);
 
-        alert("حدث خطأ");
+        alert("حدث خطأ في الاتصال");
 
       }
 
     }
+
   </script>
 
 </body>
