@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إرسال إلى تلغرام</title>
+</head>
+<body>
+
+  <h3>اكتب رسالة</h3>
+
+  <input id="msg" type="text" placeholder="اكتب هنا">
+  <button onclick="send()">إرسال</button>
+
+  <script>
+    async function send() {
+      const message = document.getElementById("msg").value;
+
+      await fetch("/api/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+      });
+
+      alert("تم الإرسال");
+    }
+  </script>
+
+</body>
+</html>
