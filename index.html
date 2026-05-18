@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إرسال إلى تلغرام</title>
 </head>
 <body>
@@ -13,17 +14,44 @@
 
   <script>
     async function send() {
+
       const message = document.getElementById("msg").value;
 
-      await fetch("/api/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message })
-      });
+      if (!message) {
+        alert("اكتب رسالة");
+        return;
+      }
 
-      alert("تم الإرسال");
+      try {
+
+        const response = await fetch("/api/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: message
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.ok === false) {
+          alert("فشل الإرسال");
+          console.log(data);
+          return;
+        }
+
+        alert("تم الإرسال إلى التلغرام");
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert("حدث خطأ");
+
+      }
+
     }
   </script>
 
