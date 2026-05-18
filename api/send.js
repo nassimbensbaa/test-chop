@@ -1,19 +1,20 @@
 export default async function handler(req, res) {
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      ok: false
-    });
-  }
-
   try {
 
     const BOT_TOKEN = process.env.BOT_TOKEN;
     const CHAT_ID = process.env.CHAT_ID;
 
+    if (!BOT_TOKEN || !CHAT_ID) {
+      return res.status(500).json({
+        ok: false,
+        error: "BOT_TOKEN or CHAT_ID missing"
+      });
+    }
+
     const { message } = req.body;
 
-    const telegram = await fetch(
+    const response = await fetch(
       `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
       {
         method: "POST",
@@ -27,15 +28,15 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await telegram.json();
+    const data = await response.json();
 
     return res.status(200).json(data);
 
-  } catch (err) {
+  } catch (error) {
 
     return res.status(500).json({
       ok: false,
-      error: err.message
+      error: error.message
     });
 
   }
